@@ -2,7 +2,6 @@ from random import randint
 
 
 class HangManGame(object):
-    WORD_LIST = ['Priest', 'Metallica']
     MAX_TRIES = 10
 
     tries = 0
@@ -10,15 +9,24 @@ class HangManGame(object):
     correct_indexes = []
 
     def __init__(self):
+        self.word_list = self.get_word_list()
         self.keyword = self.get_random_keyword()
         self.play_round()
+
+    def get_word_list(self):
+        results = []
+        with open('words.txt', 'r') as words:
+            for word in words:
+                results.append(word)
+
+        return results
 
     def get_user_input(self):
         return input("Guess a letter: \n")
 
     def get_random_keyword(self):
-        random_index = randint(0, len(self.WORD_LIST) - 1)
-        return self.WORD_LIST[random_index].lower()
+        random_index = randint(0, len(self.word_list) - 1)
+        return self.word_list[random_index].lower()
 
     def print_game_status(self):
         letters = list(self.keyword)
