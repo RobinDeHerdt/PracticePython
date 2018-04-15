@@ -17,7 +17,7 @@ class HangManGame(object):
         results = []
         with open('words.txt', 'r') as words:
             for word in words:
-                results.append(word)
+                results.append(word.replace('\n', ''))
 
         return results
 
@@ -48,6 +48,7 @@ class HangManGame(object):
     def play_round(self):
         if self.tries >= self.MAX_TRIES:
             print("Game over")
+            print("The word was: " + self.keyword)
             return
 
         user_input = self.get_user_input().lower()
@@ -63,11 +64,15 @@ class HangManGame(object):
                 self.correct_indexes.append(i)
 
         if correct_guess:
-            print("Correct! \n")
+            print("Correct!")
+            if len(self.correct_indexes) >= len(self.keyword):
+                print("Congratulations, you won!")
+                return
+
         else:
             self.tries += 1
             tries_left = self.MAX_TRIES - self.tries
-            print("Incorrect! " + str(tries_left) + " tries left. \n")
+            print("Incorrect! " + str(tries_left) + " tries left.")
 
         self.print_game_status()
         self.play_round()
