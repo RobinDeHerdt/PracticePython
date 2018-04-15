@@ -45,7 +45,32 @@ class AlphabetCipher(object):
         print(result)
 
 
+    def decode(self, keyword, message):
+        result = ""
+
+        full_keyword = self.get_full_keyword(keyword, message)
+        for index, char in enumerate(full_keyword):
+            message_index = self.get_index_for_letter(message[index])
+            keyword_index = self.get_index_for_letter(char)
+
+            encoded_letter_index = message_index - keyword_index
+
+            # Wrap around from index 25 to index 0,
+            # since there are 26 letters in the alphabet
+            if encoded_letter_index > (len(self.alphabet) - 1):
+                encoded_letter_index = encoded_letter_index - len(self.alphabet)
+
+            result += self.get_letter_for_index(encoded_letter_index)
+
+        print(result)
+
+
 alphabet_cipher = AlphabetCipher()
+
 alphabet_cipher.encode("bond", "theredfoxtrotsquietlyatmidnight")
 alphabet_cipher.encode("train", "murderontheorientexpress")
 alphabet_cipher.encode("garden", "themolessnuckintothegardenlastnight")
+
+alphabet_cipher.decode("cloak", "klatrgafedvtssdwywcyty")
+alphabet_cipher.decode("python", "pjphmfamhrcaifxifvvfmzwqtmyswst")
+alphabet_cipher.decode("moore", "rcfpsgfspiecbcc")
