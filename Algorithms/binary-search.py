@@ -1,22 +1,32 @@
 class BinarySearch(object):
 
-    # TODO: Improve performace by calculating bounds
-    # TODO: Work out the correct way to slice the list
-    def execute(self, needle, haystack):
-        if not len(haystack):
-            return print("Couldn't find number " + str(needle))
+    def __init__(self, needle, haystack):
+        self.needle = needle
+        self.haystack = haystack
 
-        index = len(haystack) // 2
+    def execute(self):
+        if not len(self.haystack):
+            return print("Couldn't find number " + str(self.needle))
 
-        print(haystack)
+        lower_bound = 0
+        upper_bound = len(self.haystack)
+        while lower_bound < upper_bound:
+            middle = (lower_bound + upper_bound) // 2
+            if self.haystack[middle] < self.needle:
+                lower_bound = middle + 1
+            else:
+                upper_bound = middle
 
-        if needle == haystack[index]:
-            print("Found number " + str(needle) + "!")
-            return
-        elif needle > haystack[index]:
-            return self.execute(needle, haystack[index+1:])
-        elif needle < haystack[index]:
-            return self.execute(needle, haystack[:index-1])
+        self.print_result(lower_bound)
 
-binary_search = BinarySearch()
-binary_search.execute(10, [1, 2, 3, 4, 5, 6, 7, 8, 9])
+    def print_result(self, index):
+        if index >= len(self.haystack):
+            print("Out of range")
+        elif self.needle == self.haystack[index]:
+            print("Found %s at index %s" % (self.haystack[index], index))
+        else:
+            print("Closest number I could find is %s at index %s" % (self.haystack[index], index))
+
+
+binary_search = BinarySearch(4, [1, 2, 3, 4, 5, 6, 7, 8, 9])
+binary_search.execute()
